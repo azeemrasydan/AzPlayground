@@ -8,7 +8,7 @@ ABuildingBase::ABuildingBase()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	Health = 100.f;
 }
 
 // Called when the game starts or when spawned
@@ -25,3 +25,12 @@ void ABuildingBase::Tick(float DeltaTime)
 
 }
 
+float ABuildingBase::GetHealth()
+{
+	return Health;
+}
+
+void ABuildingBase::Debug_SetHealth(float health)
+{
+	Health = health;
+}

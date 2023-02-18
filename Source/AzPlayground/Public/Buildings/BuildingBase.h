@@ -19,8 +19,13 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere)
+	float Health;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	float GetHealth();
+	void Debug_SetHealth(float health);
 
 };
