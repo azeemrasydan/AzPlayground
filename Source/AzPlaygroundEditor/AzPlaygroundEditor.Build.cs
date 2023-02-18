@@ -8,7 +8,15 @@ public class AzPlaygroundEditor : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore"});
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UnrealEd"});
+
+        PublicIncludePaths.AddRange(new string[] { "AzPlaygroundEditor/Public" });
+        PrivateIncludePaths.AddRange(new string[] { "AzPlaygroundEditor/Private" });
+        PublicDependencyModuleNames.AddRange(new string[] { "AzPlayground" });
+        PrivateDependencyModuleNames.AddRange(new string[] { });
+        //PrivateDependencyModuleNames.AddRange(new string[] { "UnrealEd" });
+        PrivateIncludePathModuleNames.AddRange(new string[] { });
+        DynamicallyLoadedModuleNames.AddRange(new string[] { });
 
         // Uncomment if you are using Slate UI
         // PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
