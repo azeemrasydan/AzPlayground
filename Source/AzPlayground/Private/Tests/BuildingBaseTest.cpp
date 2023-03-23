@@ -1,24 +1,50 @@
 #include "Buildings/BuildingBase.h"
+#include "Misc/AutomationTest.h"
+#include "Tests/AutomationCommon.h"
 
-BEGIN_DEFINE_SPEC(FBuildingBaseTest, "BuildingBase", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::ApplicationContextMask)
-int UsefulInteger = 0;
-void UtilityMethodForTest();
+#if WITH_DEV_AUTOMATION_TESTS
+
+BEGIN_DEFINE_SPEC(FBuildingBaseTest, "BuildingBase", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 END_DEFINE_SPEC(FBuildingBaseTest)
 
-void FBuildingBaseTest::UtilityMethodForTest() {
-	// do stg 
+DEFINE_LATENT_AUTOMATION_COMMAND_TWO_PARAMETER(FDebugSetBuildingHealth, ABuildingBase*, BuildingBase, float, Health);
+bool FDebugSetBuildingHealth::Update()
+{
+	BuildingBase->Debug_SetHealth(Health);
+	return true;
 }
+
+DEFINE_LATENT_AUTOMATION_COMMAND_TWO_PARAMETER(FTestBuildHealthEqual50f, FAutomationTestBase*, Test, ABuildingBase*, BuildingBase);
+bool FTestBuildHealthEqual50f::Update()
+{
+	UE_LOG(LogTemp, Log, TEXT("Hey you wahtsapp man"));
+	Test->TestEqual("Health is equal", BuildingBase->GetHealth(), 50.f);
+	return true;
+}
+
 
 void FBuildingBaseTest::Define() {
 	It("Loading BuildingBase must have Health 100f", [this]()
 		{
 			ABuildingBase* buildingBase = NewObject<ABuildingBase>();
-
-			buildingBase->Debug_SetHealth(100.f);
+		
 			float health = buildingBase->GetHealth();
-
+			ADD_LATENT_AUTOMATION_COMMAND(FEngineWaitLatentCommand(1.0f));
 			TestEqual("Health is equal", health, 100.f);
+		}
+	);
 
-		});
+	It("BuildingBase Debug_SetHealth must set to specified value", [this]()
+		{
+			ABuildingBase* buildingBase = NewObject<ABuildingBase>();
+		
+			ADD_LATENT_AUTOMATION_COMMAND(FDebugSetBuildingHealth(buildingBase, 50.f))
+			ADD_LATENT_AUTOMATION_COMMAND(FEngineWaitLatentCommand(1.0f));
+			ADD_LATENT_AUTOMATION_COMMAND(FTestBuildHealthEqual50f(this, buildingBase));
+
+		}
+	);
 
 }
+
+#endif
