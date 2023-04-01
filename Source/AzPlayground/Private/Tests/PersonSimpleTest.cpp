@@ -3,12 +3,16 @@
 #include "Tests/AutomationCommon.h"
 #include "Tests/AutomationEditorCommon.h"
 
+APerson* GetAbuAliPerson() {
+	APerson* person = NewObject<APerson>();
+	person->Init("Abu", "Ali", FDateTime(1995, 7, 22), FAIR_SKIN);
+	return person;
+}
+
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(PersonTestInstantiateFirstAndLastName, "APerson.Instantiating.Must have first and last name", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
 bool PersonTestInstantiateFirstAndLastName::RunTest(const FString& Parameters)
 {
-	APerson* person = NewObject<APerson>();
-	person->Init("Abu", "Ali", FDateTime(1995, 7, 22));
-
+	APerson* person = GetAbuAliPerson();
 	FString firstName = person->GetFirstName();
 	FString lastName = person->GetLastName();
 
@@ -23,8 +27,7 @@ bool PersonTestInstantiateFirstAndLastName::RunTest(const FString& Parameters)
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(PersonTestInstantiateDateOfBirth, "APerson.Instantiating.Must have date of birth", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
 bool PersonTestInstantiateDateOfBirth::RunTest(const FString& Parameters)
 {
-	APerson* person = NewObject<APerson>();
-	person->Init("Abu", "Ali", FDateTime(1995, 7, 22));
+	APerson* person = GetAbuAliPerson();
 
 	FString firstName = person->GetFirstName();
 	FString lastName = person->GetLastName();
@@ -42,8 +45,7 @@ IMPLEMENT_SIMPLE_AUTOMATION_TEST(PersonTestSkin, "APerson.Skin color needs to be
 
 bool PersonTestSkin::RunTest(const FString& Parameters)
 {
-	APerson* person = NewObject<APerson>();
-	person->Init("Abu", "Ali", FDateTime(1995, 7, 22), FAIR_SKIN);
+	APerson* person = GetAbuAliPerson();
 	ESkinColor skinColor = person->GetSkinColor();
 
 	TestEqual("Skin color must equal", skinColor, ESkinColor::FAIR_SKIN);
