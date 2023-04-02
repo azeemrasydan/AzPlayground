@@ -6,14 +6,15 @@
 #include "GameFramework/Actor.h"
 #include "Person.generated.h"
 
-enum ESkinColor : uint8
+UENUM()
+enum ESkinColor 
 {
-	EXTREME_FAIR_SKIN,
-	FAIR_SKIN,
-	MEDIUM_SKIN,
-	OLIVE_SKIN,
-	BROWN_SKIN,
-	BLACK_SKIN
+	EXTREME_FAIR_SKIN UMETA(DisplayName = "Extreme Fair Skin"),
+	FAIR_SKIN UMETA(DisplayName = "Fair Skin"),
+	MEDIUM_SKIN UMETA(DisplayName = "Medium Skin"),
+	OLIVE_SKIN UMETA(DisplayName = "Olive Skin"),
+	BROWN_SKIN UMETA(DisplayName = "Brown Skin"),
+	BLACK_SKIN UMETA(DisplayName = "Black Skin")
 };
 
 UCLASS()
@@ -31,7 +32,9 @@ protected:
 	FString FirstName;
 	FString LastName;
 	FDateTime DateTimeOfBirth;
-	ESkinColor SkinColor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ESkinColor)
+	TEnumAsByte<ESkinColor> SkinColor;
 
 public:	
 	// Called every frame
@@ -42,4 +45,13 @@ public:
 	FString GetLastName();
 	FDateTime GetDateTimeOfBirth();
 	ESkinColor GetSkinColor();
+
+private:
+	UPROPERTY(EditAnywhere)
+		class UStaticMeshComponent* Collision;
+
+	UPROPERTY(EditAnywhere)
+		class UStaticMeshComponent* Head;
 };
+
+
