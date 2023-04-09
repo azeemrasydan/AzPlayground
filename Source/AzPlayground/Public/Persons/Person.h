@@ -52,6 +52,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		class UStaticMeshComponent* Head;
+	UMaterialInterface* HeadMaterial;
 };
 
 

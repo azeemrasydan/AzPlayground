@@ -25,22 +25,28 @@ APerson::APerson()
 		Head->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 		Head->SetWorldScale3D(FVector(.3f));
 	}
-	
+
 }
 
 // Called when the game starts or when spawned
 void APerson::BeginPlay()
 {
 	Super::BeginPlay();
-	static ConstructorHelpers::FObjectFinder<UMaterial> BlackMaterialFound(TEXT("/Game/Development/Materials/Persons/BlackMaterial"));
-	static ConstructorHelpers::FObjectFinder<UMaterial> FairMaterialFound(TEXT("/Game/Development/Materials/Persons/FairMaterial"));
-	UE_LOG(LogTemp, Warning, TEXT("Succedeed"));
-	if (BlackMaterialFound.Succeeded() && FairMaterialFound.Succeeded()) {
-		UE_LOG(LogTemp, Warning, TEXT("Succedeed"));
-		UMaterial * headMaterial = (SkinColor == ESkinColor::BLACK_SKIN) ? BlackMaterialFound.Object : FairMaterialFound.Object;
-		UMaterialInstanceDynamic* dynamicHeadMaterialInstiatiate = UMaterialInstanceDynamic::Create(headMaterial, Head);
-		Head->SetMaterial(0, headMaterial);
-	}
+
+	HeadMaterial = Head->GetMaterial(0);
+	UMaterialInstanceDynamic* HeadDynamicMaterial = UMaterialInstanceDynamic::Create(HeadMaterial, Head);
+
+	Head->SetMaterial(0, HeadDynamicMaterial);
+
+	HeadDynamicMaterial->SetScalarParameterValue(TEXT("EmissiveStrength"), 50);
+	HeadDynamicMaterial->SetVectorParameterValue(TEXT("Colour"), FLinearColor::White);
+	//UE_LOG(LogTemp, Warning, TEXT("Succedeed"));
+	//if (BlackMaterialFound.Succeeded() && FairMaterialFound.Succeeded()) {
+	//	UE_LOG(LogTemp, Warning, TEXT("Succedeed"));
+	//	UMaterial * headMaterial = (SkinColor == ESkinColor::BLACK_SKIN) ? BlackMaterialFound.Object : FairMaterialFound.Object;
+	//	UMaterialInstanceDynamic* dynamicHeadMaterialInstiatiate = UMaterialInstanceDynamic::Create(headMaterial, Head);
+	//	Head->SetMaterial(0, headMaterial);
+	//}
 
 
 
