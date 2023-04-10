@@ -42,7 +42,6 @@ void APerson::BeginPlay()
 	HeadMaterial = Head->GetMaterial(0);
 	UMaterialInstanceDynamic* HeadDynamicMaterial = UMaterialInstanceDynamic::Create(HeadMaterial, Head);
 
-	HeadDynamicMaterial->SetScalarParameterValue(TEXT("EmissiveStrength"), 50);
 	HeadDynamicMaterial->SetVectorParameterValue(TEXT("Base Color"), FLinearColor::White);
 
 	Head->SetMaterial(0, HeadDynamicMaterial);
