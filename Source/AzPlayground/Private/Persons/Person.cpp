@@ -26,6 +26,12 @@ APerson::APerson()
 		Head->SetWorldScale3D(FVector(.3f));
 	}
 
+	static ConstructorHelpers::FObjectFinder<UMaterial> BlackMaterialFound(TEXT("/Game/Development/Materials/Persons/BlackMaterial"));
+	if (BlackMaterialFound.Succeeded()) {
+		UMaterial* headMaterial = BlackMaterialFound.Object;
+		Head->SetMaterial(0, headMaterial);
+	}
+
 }
 
 // Called when the game starts or when spawned
@@ -36,21 +42,11 @@ void APerson::BeginPlay()
 	HeadMaterial = Head->GetMaterial(0);
 	UMaterialInstanceDynamic* HeadDynamicMaterial = UMaterialInstanceDynamic::Create(HeadMaterial, Head);
 
+	HeadDynamicMaterial->SetScalarParameterValue(TEXT("EmissiveStrength"), 50);
+	HeadDynamicMaterial->SetVectorParameterValue(TEXT("Base Color"), FLinearColor::White);
+
 	Head->SetMaterial(0, HeadDynamicMaterial);
 
-	HeadDynamicMaterial->SetScalarParameterValue(TEXT("EmissiveStrength"), 50);
-	HeadDynamicMaterial->SetVectorParameterValue(TEXT("Colour"), FLinearColor::White);
-	//UE_LOG(LogTemp, Warning, TEXT("Succedeed"));
-	//if (BlackMaterialFound.Succeeded() && FairMaterialFound.Succeeded()) {
-	//	UE_LOG(LogTemp, Warning, TEXT("Succedeed"));
-	//	UMaterial * headMaterial = (SkinColor == ESkinColor::BLACK_SKIN) ? BlackMaterialFound.Object : FairMaterialFound.Object;
-	//	UMaterialInstanceDynamic* dynamicHeadMaterialInstiatiate = UMaterialInstanceDynamic::Create(headMaterial, Head);
-	//	Head->SetMaterial(0, headMaterial);
-	//}
-
-
-
-	
 }
 
 void APerson::Init(FString AFirstName, FString ALastName, FDateTime ADateTimeOfBirth, ESkinColor ASkinColor)
