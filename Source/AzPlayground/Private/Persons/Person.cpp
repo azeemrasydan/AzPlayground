@@ -41,8 +41,8 @@ void APerson::BeginPlay()
 
 	HeadMaterial = Head->GetMaterial(0);
 	UMaterialInstanceDynamic* HeadDynamicMaterial = UMaterialInstanceDynamic::Create(HeadMaterial, Head);
-
-	HeadDynamicMaterial->SetVectorParameterValue(TEXT("Base Color"), FLinearColor::White);
+	FLinearColor HeadColor = SkinColorToMaterialColorMap[SkinColor];
+	HeadDynamicMaterial->SetVectorParameterValue(TEXT("Base Color"), HeadColor);
 
 	Head->SetMaterial(0, HeadDynamicMaterial);
 

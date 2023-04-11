@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Containers/Map.h"
 #include "Person.generated.h"
 
 UENUM()
-enum ESkinColor 
+enum ESkinColor
 {
 	EXTREME_FAIR_SKIN UMETA(DisplayName = "Extreme Fair Skin"),
 	FAIR_SKIN UMETA(DisplayName = "Fair Skin"),
@@ -21,8 +22,8 @@ UCLASS()
 class AZPLAYGROUND_API APerson : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	APerson();
 
@@ -34,9 +35,9 @@ protected:
 	FDateTime DateTimeOfBirth;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ESkinColor)
-	TEnumAsByte<ESkinColor> SkinColor;
+		TEnumAsByte<ESkinColor> SkinColor;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	void Init(FString AFirstName, FString ALastName, FDateTime ADateTimeOfBirth, ESkinColor ASkinColor = BLACK_SKIN);
@@ -53,6 +54,14 @@ private:
 	UPROPERTY(EditAnywhere)
 		class UStaticMeshComponent* Head;
 	UMaterialInterface* HeadMaterial;
+	TMap<ESkinColor, FLinearColor> SkinColorToMaterialColorMap = {
+		{ESkinColor::EXTREME_FAIR_SKIN, FLinearColor::White},
+		{ESkinColor::FAIR_SKIN, FLinearColor::Yellow},
+		{ESkinColor::MEDIUM_SKIN, FLinearColor::Green},
+		{ESkinColor::OLIVE_SKIN, FLinearColor::Gray},
+		{ESkinColor::BROWN_SKIN, FLinearColor::Red},
+		{ESkinColor::BLACK_SKIN, FLinearColor::Black}
+	};
 };
 
 
